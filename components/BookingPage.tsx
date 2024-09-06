@@ -4,16 +4,17 @@ import axios from "axios";
 import { useNavigation } from "expo-router";
 import Mycontext from "@/context/createContext";
 
-const BookingPage = ({ date, bookingDates }) => {
+const BookingPage = ({ date, bookingDates,functionHallName }) => {
   const navigation = useNavigation();
   const [displayMessage, setDisplayMessage] = useState("");
 
   const {hallBookedDate,sethallBookedDate} = useContext(Mycontext)
- 
+  
+  const { selectedHallName } = useContext(Mycontext);
 
   const datePosting = async () => {
     try {
-      if (bookingDates.includes(date)) {
+      if (bookingDates.includes(date)  ){
         setDisplayMessage("");
         setDisplayMessage("No slots available on this day");
       } else if (date) {
@@ -29,7 +30,9 @@ const BookingPage = ({ date, bookingDates }) => {
     }
   };
 
-  console.log(date);
+  console.log(date)
+
+
   return (
     <View style={styles.container}>
       <Text>{displayMessage}</Text>
@@ -56,5 +59,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 export default BookingPage;

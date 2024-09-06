@@ -26,23 +26,23 @@ export default function App() {
         <Stack.Screen
           name="LandingPage"
           component={PartyzLandingPage}
-          options={{ title: "Booking Page" }}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="MainDashboardPage"
           component={UserLocation}
-          options={{ title: "DashBoard Page" }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="BookingDatePicker"
           component={DatePicker}
-          options={{ title: "DashBoard Page" }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="UserBookingDetailsPage"
           component={UserDetailsForm}
-          options={{ title: "DashBoard Page" }}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </Mycontext.Provider>

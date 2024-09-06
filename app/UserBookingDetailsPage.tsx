@@ -48,7 +48,7 @@ const UserDetailsForm = () => {
               if (numberOfGuests != "") {
                 if (userAddress != "") {
                   const userDetails = await axios.post(
-                    "http://192.168.0.5:4000/api/postUserDetails",
+                    "http://192.168.0.6:4000/api/postUserDetails",
                     {
                       name,
                       phoneNumber,
@@ -59,7 +59,7 @@ const UserDetailsForm = () => {
                       userAddress,
                     }
                   );
-                   await axios.post("http://192.168.0.5:4000/api/postBookingDate", {
+                   await axios.post("http://192.168.0.6:4000/api/postBookingDate", {
           bookingDate: hallBookedDate,
           functionHallName: selectedHallName
         });  

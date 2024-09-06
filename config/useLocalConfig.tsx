@@ -1,1 +1,1 @@
-export const GetFunctionHalls =  "http://192.168.0.5:4000/api/getFunctionHalls"
+export const GetFunctionHalls = "http://192.168.0.6:4000/api/getFunctionHalls"
