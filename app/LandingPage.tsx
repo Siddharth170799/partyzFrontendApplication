@@ -1,94 +1,187 @@
-import { Link, useNavigation } from "expo-router";
+// import { Link, useNavigation } from "expo-router";
 
+// import * as React from "react";
+// import {
+//   StyleSheet,
+//   Text,
+//   View,
+//   Image,
+//   TouchableOpacity,
+//   ImageBackground,
+// } from "react-native";
+
+// export default function PartyzLandingPage() {
+//   const navigation = useNavigation();
+//   return (
+//     <ImageBackground
+//       source={require("../images/AdobeBackgroundImage.jpeg")} // Replace with your image path
+//       style={styles.backgroundImage}
+//       resizeMode="cover" // Ensures the image covers the entire screen
+//     >
+//       <View style={styles.container}>
+//         <View style={styles.imageContainer}>
+//           <Image source={require("../images/Logo.png")} style={styles.image} />
+//         </View>
+
+//         <TouchableOpacity
+//           onPress={() => navigation.navigate("MainDashboardPage")}
+//           style={styles.button}
+//         >
+//           <Text style={styles.buttonText}>Get Started</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </ImageBackground>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   backgroundImage: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: "100%", // Ensure the background image covers the whole screen width
+//     height: "100%", // Ensure the background image covers the whole screen height
+//   },
+//   container: {
+//     flex: 1,
+//     justifyContent: "center", // Centers the content vertically
+//     alignItems: "center", // Centers the content horizontally
+//     width: "100%",
+//   },
+//   imageContainer: {
+//     justifyContent: "center",
+//     alignItems: "center",
+//     marginBottom: 40, // Space between image and button
+//   },
+//   image: {
+//     width: 300, // Adjust the width of the image as needed
+//     height: 300, // Adjust the height of the image as needed
+//     resizeMode: "contain",
+//     marginTop: 30, // Ensures the image scales properly within its bounds
+//   },
+
+//   button: {
+//     backgroundColor: "transparent",
+//     borderWidth: 1,
+//     borderColor: "rgba(255, 255, 255, 0.7)", // Light white border
+//     paddingVertical: 15,
+//     paddingHorizontal: 40,
+//     borderRadius: 25,
+//     marginBottom: 20,
+//     alignItems: "center",
+//   },
+//   buttonText: {
+//     color: "#FFF",
+//     fontSize: 18,
+//     fontWeight: "bold",
+//     textAlign: "center",
+//   },
+//   footer: {
+//     fontSize: 14,
+//     color: "#fff",
+//     textAlign: "center",
+//   },
+//   link: {
+//     color: "#FF6347",
+//     fontWeight: "bold",
+//   },
+// });
+
+import { useState } from 'react';
+import { useNavigation } from "expo-router";
 import * as React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+  Pressable
+} from "react-native";
 
 export default function PartyzLandingPage() {
   const navigation = useNavigation();
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Partyz</Text>
-      <Text style={styles.subtitle}>
-        Your ultimate party planning companion
-      </Text>
+    <ImageBackground
+      source={require("../images/AdobeBackgroundImage.jpeg")} // Replace with your image path
+      style={styles.backgroundImage}
+      resizeMode="cover" // Ensures the image covers the entire screen
+    >
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={require("../images/Logo.png")} style={styles.image} />
+        </View>
 
-      <Text style={styles.description}>
-        Discover!!!!, plan, and organize unforgettable parties with ease.
-        Connect with friends, find the best venues, and enjoy the perfect party
-        experience!
-      </Text>
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate("MainDashboardPage")}
-        style={styles.button}
-      >
-        {/* <Link href={"/Settings"}> */}
-        {/* {" "} */}
-        <Text style={styles.buttonText}>Get Started</Text>
-        {/* </Link> */}
-      </TouchableOpacity>
-
-      <Text style={styles.footer}>
-        Already have an account? <Text style={styles.link}>Sign In</Text>
-      </Text>
-    </View>
+        <Pressable
+          onPress={() => navigation.navigate("MainDashboardPage")}
+          onPressIn={() => setIsHovered(true)}
+          onPressOut={() => setIsHovered(false)}
+          style={[
+            styles.button,
+            {
+              backgroundColor: isHovered ? "green" : "transparent", // Change to green when hovered
+            }
+          ]}
+        >
+          <Text style={styles.buttonText}>Get Started</Text>
+        </Pressable>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%", // Ensure the background image covers the whole screen width
+    height: "100%", // Ensure the background image covers the whole screen height
+  },
   container: {
     flex: 1,
-    backgroundColor: "orange",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "#666",
-    marginBottom: 30,
-  },
-  heroImage: {
+    justifyContent: "center", // Centers the content vertically
+    alignItems: "center", // Centers the content horizontally
     width: "100%",
-    height: 200,
+  },
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 40, // Space between image and button
+  },
+  image: {
+    width: 300, // Adjust the width of the image as needed
+    height: 300, // Adjust the height of the image as needed
     resizeMode: "contain",
-    marginBottom: 30,
+    marginTop: 30, // Ensures the image scales properly within its bounds
   },
-  description: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 40,
-  },
+
   button: {
-    backgroundColor: "#FF6347",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.7)", // Light white border
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 25,
     marginBottom: 20,
+    alignItems: "center",
   },
   buttonText: {
     color: "#FFF",
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
   },
   footer: {
     fontSize: 14,
-    color: "#666",
+    color: "#fff",
+    textAlign: "center",
   },
   link: {
     color: "#FF6347",
     fontWeight: "bold",
   },
 });
+
