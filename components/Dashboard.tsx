@@ -11,14 +11,13 @@ import axios from "axios";
 import Card from "@/components/Card";
 import { GetFunctionHalls } from "@/config/useLocalConfig";
 import Navbar from "@/components/Header";
-import { CheckBox } from 'react-native-elements';
+import { useNavigation } from "expo-router";
 
-export default function Dashboard({ location }) {
+export default function Dashboard({ location, navigation }) {
   const [functionHalls, setFunctionHalls] = useState([]);
   const [filteredFunctionHalls, setFilteredFunctionHalls] = useState([]);
   const [searchByHallName, setSearchByHallName] = useState("");
-
-  
+  const navigation1 = useNavigation();
 
   const FunctionHallsData = async () => {
     try {
@@ -49,12 +48,13 @@ export default function Dashboard({ location }) {
     setFunctionHalls(filteredFunctionHallsDetails1);
   };
 
+  const filteredFunctionHallsByPax = () => {
+    const filteredFunctionHallsDetails = functionHalls.filter(
+      (item) => parseInt(item.Capacity) > 400
+    );
 
-  const filteredFunctionHallsByPax=()=>{
-    const filteredFunctionHallsDetails= functionHalls.filter((item)=> parseInt(item.Capacity) > 400)
-    console.log(filteredFunctionHallsDetails,"haaaaii")
-    setFunctionHalls(filteredFunctionHallsDetails)
-  }
+    setFunctionHalls(filteredFunctionHallsDetails);
+  };
 
   useEffect(() => {
     FunctionHallsData();
@@ -62,25 +62,20 @@ export default function Dashboard({ location }) {
 
   useEffect(() => {
     filteredFunctionHallsBySearch();
-    // filteredFunctionHallsBySearch1();
   }, [searchByHallName]);
-  // useEffect(() => {
-  //   filteredFunctionHallsByLocation();
-  // }, [location]);
-  // console.log(location)
 
   return (
     <>
       <Navbar />
       <View style={styles.container}>
-        {/* <View style={styles.sidebar}>
-        <Text style={styles.sidebarTitle}>Dashboard</Text>
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuItemText}>Marriage Bookings</Text>
-        </TouchableOpacity>
-      </View> */}
-
         <View style={styles.mainContent}>
+          <TouchableOpacity
+            style={styles.myBookingsButton}
+            onPress={() => navigation1.navigate("UserBookingsPage")}
+          >
+            <Text style={styles.myBookingsButtonText}>My Bookings</Text>
+          </TouchableOpacity>
+
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchInput}
@@ -88,31 +83,24 @@ export default function Dashboard({ location }) {
               onChangeText={(text) => setSearchByHallName(text)}
             />
           </View>
-          {/* <View style={styles.checkboxContainer}>
-      <View style={styles.searchContainer}>
-      
-          <TouchableOpacity >
-          <Text >Capacity above 500</Text>
-        </TouchableOpacity>
 
-      </View>
-    </View> */}
-        <View style={styles.checkboxContainer}>
-      <View style={styles.searchContainer}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={filteredFunctionHallsByPax}>
-          <Text style={styles.buttonText}>Capacity above 500</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={FunctionHallsData}>
-          <Text style={styles.buttonText}>Display All</Text>
-        </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-          {/* <View>
-            <Text>{location?.latitude}</Text>
-            <Text>{location?.longitude}</Text>
-          </View> */}
+          <View style={styles.checkboxContainer}>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={filteredFunctionHallsByPax}
+              >
+                <Text style={styles.buttonText}>Capacity above 500</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={FunctionHallsData}
+              >
+                <Text style={styles.buttonText}>Display All</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           <ScrollView contentContainerStyle={styles.cardsContainer}>
             {filteredFunctionHalls.length > 0 || searchByHallName != ""
               ? filteredFunctionHalls.map((hall, id) => (
@@ -131,50 +119,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  button: {
-    backgroundColor: "#FF6347", // Background color
-    paddingVertical: 10, // Vertical padding
-    paddingHorizontal: 20, // Horizontal padding
-    borderRadius: 5, // Rounded corners
-    alignItems: "center", // Center content
-    justifyContent: "center",
-    width: 300, // Center content
-  },
-  buttonText: {
-    color: "#FFF", // Text color
-    fontSize: 13, // Font size
-    fontWeight: "bold", // Font weight
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly', // or 'space-around' or 'space-evenly' for spacing
-  },
-  sidebar: {
-    width: "25%",
-    backgroundColor: "orange",
-    padding: 20,
-    borderRightWidth: 1,
-    borderRightColor: "#ddd",
-  },
-  sidebarTitle: {
-    fontSize: 15,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  menuItem: {
-    paddingVertical: 15,
-    fontSize: 15,
-  },
-  checkboxContainer: {
-    marginBottom: 20,
-  },
-  menuItemText: {
-    fontSize: 18,
-    color: "#333",
-  },
-  cardsContainer: {
-    flexGrow: 1,
-  },
   mainContent: {
     flex: 1,
     padding: 20,
@@ -189,26 +133,46 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    color:"black"
+    color: "black",
   },
   contentContainer: {
     flexGrow: 1,
   },
-  mainTitle: {
-    fontSize: 24,
+  button: {
+    backgroundColor: "#FF6347",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 300,
+  },
+  buttonText: {
+    color: "#FFF",
+    fontSize: 13,
     fontWeight: "bold",
   },
-  dropdown: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    marginTop: 5,
-    maxHeight: 150,
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
-  dropdownItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+  checkboxContainer: {
+    marginBottom: 20,
+  },
+  cardsContainer: {
+    flexGrow: 1,
+  },
+  myBookingsButton: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  myBookingsButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
